@@ -2983,33 +2983,6 @@ static int export_gpio(const int pin)
 }
 
 /**
- * @brief API to unexport GPIO Pin.
- *
- * @param pin - GPIO pin number
- * @return int - 0 upon successful, -1 upon error
- */
-static int unexport_gpio(const int pin)
-{
-    int fd = open(GPIO_UNEXPORT_PATH, O_WRONLY);
-    if (fd < 0)
-    {
-        wifi_hal_error_print("%s:%d  Unable to open GPIO unexport file \n", __func__, __LINE__);
-        return RETURN_ERR;
-    }
-    char buffer[BUFLEN_128] = {0};
-    int len = snprintf(buffer, sizeof(buffer), "%d", pin);
-    if (write(fd, buffer, len) != len)
-    {
-        wifi_hal_error_print("%s:%d  Unable to unexport GPIO%d!!! \n", __func__, __LINE__,pin);
-        close(fd);
-        return RETURN_ERR;
-    }
-    close(fd);
-    wifi_hal_dbg_print("%s:%d  Unexported GPIO %d!!!\n", __func__, __LINE__, pin);
-
-    return RETURN_OK;
-}
-/**
  * @brief API to set GPIO Pin direction.
  *
  * @param pin - GPIO pin number
