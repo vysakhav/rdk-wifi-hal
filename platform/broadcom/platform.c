@@ -33,6 +33,7 @@
 #endif // defined(WLDM_21_2)
 #include "wlcsm_lib_wl.h"
 #if defined (ENABLED_EDPD)
+#include <errno.h>
 #include <fcntl.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -2965,8 +2966,14 @@ static int export_gpio(const int pin)
     int len = snprintf(buffer, sizeof(buffer), "%d", pin);
     if (write(fd, buffer, len) != len)
     {
-        wifi_hal_error_print("%s:%d  Unable to export GPIO%d!!! \n", __func__, __LINE__, pin);
         close(fd);
+        /* EBUSY means the GPIO is already exported — that is fine */
+        if (errno == EBUSY)
+        {
+            wifi_hal_dbg_print("%s:%d GPIO %d already exported, continuing\n", __func__, __LINE__, pin);
+            return RETURN_OK;
+        }
+        wifi_hal_error_print("%s:%d  Unable to export GPIO%d!!! \n", __func__, __LINE__, pin);
         return RETURN_ERR;
     }
     close(fd);
@@ -3100,8 +3107,6 @@ int platform_set_gpio_config_for_ecomode(const int wl_idx, const bool eco_pwr_do
         wifi_hal_error_print("%s:%d Failed to set value for gpio %d \n", __func__, __LINE__, gpio_pin);
         goto EXIT;
     }
-
-    unexport_gpio(gpio_pin);
 
     wifi_hal_dbg_print("%s:%d For wl%d, configured the gpio to %s the PCIe interface \n", __func__, __LINE__, wl_idx, (eco_pwr_down ? "power down" : "power up"));
 EXIT:
