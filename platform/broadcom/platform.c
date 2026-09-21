@@ -41,7 +41,7 @@
 
 #include <sys/stat.h>
 #if defined(TCXB7_PORT) || defined(TCXB8_PORT) || defined(XB10_PORT) || defined(SCXF10_PORT) || \
-    defined(RDKB_ONE_WIFI_PROD) || defined(XER2_PORT)                                           \
+    defined(RDKB_ONE_WIFI_PROD) || defined(XER2_PORT) ||                                        \
     ((defined(SCXER10_PORT) || defined(SKYSR213_PORT)) &&                                       \
         (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0)))
 #include <fcntl.h>
@@ -2339,7 +2339,7 @@ static void platform_beacon_update(wifi_radio_index_t r_index, wifi_vap_info_map
 #endif /* FEATURE_HOSTAP_MGMT_FRAME_CTRL */
 
 #if defined(TCXB7_PORT) || defined(TCXB8_PORT) || defined(XB10_PORT) || defined(SCXF10_PORT) || \
-    defined(RDKB_ONE_WIFI_PROD) || defined(TCHCBRV2_PORT) || defined (XER2_PORT) \
+    defined(RDKB_ONE_WIFI_PROD) || defined(TCHCBRV2_PORT) || defined (XER2_PORT) || \
     (defined(SCXER10_PORT) && (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0)))
 // ToDo: Add Beacon rate NL support for HUB6
 
@@ -3415,7 +3415,7 @@ int platform_get_vendor_oui(char *vendor_oui, int vendor_oui_len)
 #endif /*_SR213_PRODUCT_REQ_ */
 
 #if defined(TCXB7_PORT) || defined(TCXB8_PORT) || defined(XB10_PORT) || defined(SCXF10_PORT) || \
-    defined(RDKB_ONE_WIFI_PROD) || defined(XER2_PORT)                                           \
+    defined(RDKB_ONE_WIFI_PROD) || defined(XER2_PORT) ||                                        \
     ((defined(SCXER10_PORT) || defined(SKYSR213_PORT)) &&                                       \
         (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 0, 0)))
 
